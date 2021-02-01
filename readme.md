@@ -6,6 +6,7 @@ This project illustrates various software design concepts using C#. The README f
 * [Polymorphism](#Polymorphism)
 * [Encapsulation](#encapsulation)
 * [Inheritance](#inheritance)
+* [Abstraction](#abstraction)
 * [Single Responsibility Principle](#singleResponsibility)
 * [Open/Closed Principle](#openclose)
 * [Liskov Substitution Principle](#liskov)
@@ -67,6 +68,65 @@ public class Plane : ITransport {
     public override float GetRemainingFuelPct(){
 
         return 97.1f;
+    }
+}
+```
+
+### Encapsulation
+
+Encapsulation is another pillar of OOP. It provides the means to contain consistent, controllable access to objects. A very common way to accomplish this is by making fields (properties) private and allowing access to them only via public methods. For example, a person class has a 'FirstName' property. Instead of allowing public access to this where anyone can modify the property, a private field is created (in C# generally '_firstName' would indicate it's both private and belongs to that field) and a method to modify it are created. Adding the custom setter to call that method maintains anyone attempting to modify the field would be calling that method. This allows for logic to be consistent across multiple instantiations of the class 'Person'. A simple example of why that is valuable is having the ability to ensure 'FirstName' is always properly capatilizied. You could implement this in code as shown below.  
+
+```cs
+//No Encapsulation
+public class Person_NoEncapsulation {
+    public string FirstName {get; set;}
+}
+
+//Has Encapsulation
+public class Person_Encapsulation {
+        //custom getter and setter
+        public string FirstName {
+            get { return _firstName; }
+            set { SetFirstName(value); }
+        }
+
+        //this field is the private backing field for the public property FirstName
+        private string _firstName;
+
+        //this logic is executed everytime the FirstName value is set as indicated in the setter
+        private void SetFirstName(string input)
+        {         
+            //example of validation 
+            if (string.IsNullOrWhiteSpace(input)) throw new ArgumentException("input for FirstName can not be null or empty");
+
+            //proper case
+            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+            TextInfo textInfo = cultureInfo.TextInfo;
+            _firstName = textInfo.ToTitleCase(input);
+
+        }
+}
+
+//inside a console app program.cs class
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+            try
+            {
+                var person1 = new Person_NoEncapsulation("aNdReW");
+                var person2 = new Person_Encapsulation("aNdReW");
+                //outputs aNdReW
+                Console.WriteLine(person1.FirstName);
+                //outputs Andrew
+                Console.WriteLine(person2.FirstName);
+                //throws exception as expected
+                var person3 = new Person_Encapsulation("");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
     }
 }
 ```

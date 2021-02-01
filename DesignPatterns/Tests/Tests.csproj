@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Encapsulation\Encapsulation.csproj" />
     <ProjectReference Include="..\Polymorphism\Polymorphism.csproj" />
   </ItemGroup>
 
