@@ -130,3 +130,53 @@ internal class Program
     }
 }
 ```
+
+
+### Inheritance
+
+Rounding out OOP pillars is Inheritance. Inheritance allows for the creation of class heirarchies in which man common methods, properties and logic can be shared across multiple similar classes and even extended in the subclasses. A good real world example of this is people. People have a lot of "properties" and "methods" in common. Eat() could be a common method, NumberOfHearts (timelords need not apply) could be a common "property". But people also have a lot of differences. The property "Dialect" would be different if you are from New Orleans vs if you are from Ontario.  The SayHello() method is another thing that could be very different among groups of people. Inheritance allows for the shared things to keep code DRY (don't repeat yourself) while at the same time allowing for implementations that are different in each subclass. The example below demonstrates this. Each subclass shares the super class peroperties and methods in common and can even override them when they are marked for that purpose.  
+
+```cs
+public class Person {
+    public string Name {get; set;}
+
+    public string Speak(){
+        // they said something
+    }
+
+    public virtual string SendEmail(){
+        return "sending email from Person class";
+    }
+}
+
+public class Employee : Person {
+    public string JobTitle {get; set;}
+    public string Department {get; set;}
+
+    public bool ClockIn(){
+        // $$$
+    }
+
+    //this class just simply overrides the super class
+    public override string SendEmail(){
+        return "sending email from the Employee class";
+    }
+}
+
+public class Customer : Person {
+    public string UserName {get; set;}
+
+    public string Checkout(){
+        // place an order
+    }
+
+    //this override will use the base class logic and implement some of it's own
+    public override string SendEmail(){
+        string output += base.SendEmail();
+        output += "\r\n sending email from the Customer class";
+
+    }
+}
+
+
+```
