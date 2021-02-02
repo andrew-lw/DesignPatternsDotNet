@@ -174,6 +174,7 @@ public class Customer : Person {
     public override string SendEmail(){
         string output += base.SendEmail();
         output += "\r\n sending email from the Customer class";
+        return output;
 
     }
 }
