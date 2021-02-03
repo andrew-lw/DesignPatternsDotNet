@@ -181,3 +181,54 @@ public class Customer : Person {
 
 
 ```
+
+
+### Abstraction
+
+Where polymorphism allows for data constructs to take multiple different forms(types) and encapsulation provides consistent and controlled access to properties, abstraction removes implementation detail from the concern of the user of the abstracted object. A fantastic example of this is the computer mouse. You don't know or need to know how all the underlying hardware / software works on your mouse. You only need to know that if you plug it in and move it around it moves the cursor on your screen. The expectation is two fold. 1) The implementation of this behavior / property is hidden and 2) The implementation and the mouse still works. This allows for seperation between software which makes it more durable over time. Here is an code sample using that example.
+
+```cs
+//Mouse Class
+public class Mouse {
+    private bool IsPluggedIn;
+    private int currXPos;
+    private int currYPos;
+
+    public Mouse() {
+        IsPluggedIn = true;
+    }
+
+    public void Move(int xOffset, int yOffset){
+        if (IsPluggedIn){
+        //do the work to interact with the hardware
+        //and screen and move the cursor
+        //the user doesn't know how this works 
+        //and doesn't care
+            currXPos += xOffset;
+            currYPos += yOffset;
+        }
+
+    }
+}
+
+//inside a console app program.cs class
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+            try
+            {
+                //user is using the mouse unaware that 
+                // the private fields exist or what Move() does
+                var mouse = new Mouse();
+                mouse.IsPluggedIn = true;
+                mouse.Move(-2,5);
+                mouse.Move(3,16);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+    }
+}
+```
