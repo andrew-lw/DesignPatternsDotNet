@@ -7,7 +7,7 @@ This project illustrates various software design concepts using C#. The README f
 * [Encapsulation](#encapsulation)
 * [Inheritance](#inheritance)
 * [Abstraction](#abstraction)
-* [Single Responsibility Principle](#singleResponsibility)
+* [Single Responsibility Principle](#SingleResponsibilityPrincipal)
 * [Open/Closed Principle](#openclose)
 * [Liskov Substitution Principle](#liskov)
 * [Interface Segregation Principle](#interfaceSegregation)
@@ -231,4 +231,89 @@ internal class Program
             }
     }
 }
+```
+
+### Single Responsibility Principal
+
+In Robert C. Martin's book "Clean Code" he reiterates the echo of wise developers, "Functions should do one thing. They should do it well. They should do it only.". This is the very essence of the single responsibility principle. Functions should be singular in purpose. This is fundamental to well designed systems and maintainable code. Below are two examples. The 'DoesALot' version of the email class shows a violation of this principal. The SRP class does a better job (although not perfect) at adhering to the principal. They both end up with the same result but one is much easier to read and maintain than the other.  Imagine if we wanted to switch from Sendgrid to another provider. Much easier to find that and correct that when things are more isolated. Also easier as a developer to read through the code and understand what it does.  
+
+```cs
+public class Email_DoesALot
+    {
+        public static async void DoesALot(string message, string emailAddress)
+        {
+            //get credentials and obtain auth
+            var cred = System.Environment.GetEnvironmentVariable("emailCredential");
+            var base64EncodedBytes = System.Convert.FromBase64String(cred);
+            var encondedString = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            var client = new RestClient("https://someAuthEndPoint");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json", "...", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            var auth = JsonConvert.DeserializeObject<Auth>(response.Content);
+            //validate email address
+            //this validation is obviously just nonsense
+            bool IsValid = true;
+            if (string.IsNullOrWhiteSpace(emailAddress)) IsValid = false;
+            if (!emailAddress.Contains("@")) IsValid = false;
+            if (IsValid)
+            {
+                //send the email
+                var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                var sgclient = new SendGridClient(apiKey);
+                var from = new EmailAddress("noreply@nowhere.net", "Example User");
+                var subject = "Sending an Email";
+                var to = new EmailAddress(emailAddress, "Example User");
+                var plainTextContent = message;
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, null);
+                await sgclient.SendEmailAsync(msg).ConfigureAwait(false);
+            }
+        }
+    }
+
+    public class Email_SRP
+    {
+        //get credentials and obtain auth
+        public static Auth GetAuth()
+        {
+            var cred = System.Environment.GetEnvironmentVariable("emailCredential");
+            var base64EncodedBytes = System.Convert.FromBase64String(cred);
+            var encondedString = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            var client = new RestClient("https://someAuthEndPoint");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json", "...", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            return JsonConvert.DeserializeObject<Auth>(response.Content);
+        }
+
+        //validate the email address
+        public static bool ValidateEmail(string emailAddress)
+        {
+            //validate email address
+            //this validation is obviously just nonsense
+            if (string.IsNullOrEmpty(emailAddress)) return false;
+            if (!emailAddress.Contains("@")) return false;
+            return true;
+        }
+
+        //send the email
+        public static async void SendEmail(string emailAddress, string message)
+        {
+            var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var sgclient = new SendGridClient(apiKey);
+            var from = new EmailAddress("noreply@nowhere.net", "Example User");
+            var subject = "Sending an Email";
+            var to = new EmailAddress(emailAddress, "Example User");
+            var plainTextContent = message;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, null);
+            await sgclient.SendEmailAsync(msg).ConfigureAwait(false);
+        }
+    }
+
+    public class Auth
+    {
+        public string token { get; set; }
+    }
 ```
