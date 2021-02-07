@@ -8,7 +8,7 @@ This project illustrates various software design concepts using C#. The README f
 * [Inheritance](#inheritance)
 * [Abstraction](#abstraction)
 * [Single Responsibility Principle](#SingleResponsibilityPrincipal)
-* [Open/Closed Principle](#openclose)
+* [Open/Closed Principle](#closed)
 * [Liskov Substitution Principle](#liskov)
 * [Interface Segregation Principle](#interfaceSegregation)
 * [Dependency Inversion](#dependencyInversion)
@@ -316,4 +316,41 @@ public class Email_DoesALot
     {
         public string token { get; set; }
     }
+```
+
+### Open / Closed Principal
+
+The definition you will here thrown out for this principal is, "software elements (classes, methods) should be open to extension and closed to modification".  What does this mean practically? Does this mean no code should ever be rewritten? Only certain types of code? I think most developers would agree if we could write software that never need to be be changed and only extended that would be ideal. Let's look at a simple example of one way this can be accomplished, A customer with an address. The address could be expanded in the customer class but one shortcoming of this would be what happens when we need to add extra properties to the address? If the address is used inside multiple methods this can become a very big change just for simplay adding a property. If we 'close' the customer class the modification would need to take place in a different place, in this exampel the address class. 
+
+```cs
+public class Customer_NotClosed {
+    public string Name { get; set; }
+    public string AddressLine1 { get; set; }
+    public string AddressLine2 { get; set; }
+    public string City { get; set; }
+    public string PostalCode { get; set; }
+    public string State { get; set; }
+
+    //now we need to add country so we have to put it here 
+    public string Country { get; set; }
+}
+
+public class Customer_Closed {
+    public string Name { get; set; }
+    public Address CustomerAddress { get; set; }
+
+}
+
+public class Address {
+    public string Line1 { get; set; }
+    public string Line2 { get; set; }
+    public string City { get; set; }
+    public string PostalCode { get; set; }
+    public string State { get; set; }
+
+    //now we can add this property here, allowing the customer 
+    //to adhere to the principal
+    public string Country { get; set; }
+}
+
 ```

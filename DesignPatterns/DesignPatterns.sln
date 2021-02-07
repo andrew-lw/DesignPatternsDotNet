@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inheritance", "Inheritance\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstraction", "Abstraction\Abstraction.csproj", "{F348899A-7707-467E-9311-6A1702FF3896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleResponsibilityPrinciple", "SingleResponsibilityPrinciple\SingleResponsibilityPrinciple.csproj", "{087AC9FF-3E82-44AA-BE36-5D99230B0058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleResponsibilityPrinciple", "SingleResponsibilityPrinciple\SingleResponsibilityPrinciple.csproj", "{087AC9FF-3E82-44AA-BE36-5D99230B0058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenClosedPrincipal", "OpenClosePrincipal\OpenClosedPrincipal.csproj", "{F4A479F1-5C7D-406A-A302-B7E0253F0BE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{087AC9FF-3E82-44AA-BE36-5D99230B0058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{087AC9FF-3E82-44AA-BE36-5D99230B0058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{087AC9FF-3E82-44AA-BE36-5D99230B0058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4A479F1-5C7D-406A-A302-B7E0253F0BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4A479F1-5C7D-406A-A302-B7E0253F0BE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4A479F1-5C7D-406A-A302-B7E0253F0BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4A479F1-5C7D-406A-A302-B7E0253F0BE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
