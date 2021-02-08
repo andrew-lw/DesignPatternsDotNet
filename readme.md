@@ -3,15 +3,6 @@ Software Design Patterns & Principles
 
 This project illustrates various software design concepts using C#. The README file attempts to explain the reason for the concept/pattern, why other solutions are inferior and how to implement it. The Tests portion of the solution proves the solution works as expected.  
 
-* [Polymorphism](#Polymorphism)
-* [Encapsulation](#encapsulation)
-* [Inheritance](#inheritance)
-* [Abstraction](#abstraction)
-* [Single Responsibility Principle](#SingleResponsibilityPrincipal)
-* [Open/Closed Principle](#closed)
-* [Liskov Substitution Principle](#liskov)
-* [Interface Segregation Principle](#interfaceSegregation)
-* [Dependency Inversion](#dependencyInversion)
 * [Factory](#factory)
 * [Abstract Factory](#abstractFactory)
 * [Singleton](#singleton)
